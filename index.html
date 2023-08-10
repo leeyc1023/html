@@ -1,46 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="ko">
 
-<html>
 <head>
-  <meta charset="utf-8">
-  <title>HTML Example</title>
-  
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/about.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
 </head>
+
 <body>
-  <section class="center">
-    <aside class="sidebar"></aside>
-    
-    <section class="contents">
-      <!-- page will be include here -->
-      <section id="page" class="page">
-        <section id="about">
-          <section class="frame">
-            <h2><b>HELLO</b>WORLD</h2>
-            
-            <div class="cat">
-              <div class="picture">
-                <img src="images/mew.png" alt="Mew">
-              </div>
-              <small>Mew</small>
-            </div>
-            <div class="cat">
-              <div class="picture">
-                <img src="images/siesta.png" alt="Siesta">
-              </div>
-              <small>Siesta</small>
-            </div>
-            <div class="cat">
-              <div class="picture">
-                <img src="images/tiger.png" alt="Tiger">
-              </div>
-              <small>Tiger</small>
-            </div>
-          </section>
-        </section>
-      </section>
-    </section>
-  </section>
+    <h1>대전날씨</h1>
+    <p id="temperature"></p>
+    <script>
+    function temperature(){
+        fetch('https://api.openweathermap.org/data/2.5/weather?q=daejeon&appid=e41cf0c17e49cd33c9b09da20ff7acb7&units=metric')
+        .then((response) => response.json())
+        .then((data) => {
+            var temperatureElement = document.getElementById("temperature");
+            var tempValue = data.main.temp;
+            temperatureElement.textContent = "온도 : " + tempValue + " °C";
+    })
+    .catch((error) => console.log("An error occurred:", error));
+    }
+    temperature();
+    setInterval(temperature, 1000);
+    </script>
+    <p id="wind"></p>
+    <script>
+        function wind(){
+            fetch('https://api.openweathermap.org/data/2.5/weather?q=daejeon&appid=e41cf0c17e49cd33c9b09da20ff7acb7&units=metric')
+            .then((response) => response.json())
+            .then((data) => {
+                var temperatureElement = document.getElementById("wind");
+                var tempValue = data.wind.speed;
+                temperatureElement.textContent = "풍속 : " + tempValue + " m/s";
+    })
+    .catch((error) => console.log("An error occurred:", error));
+    }
+    wind();
+    setInterval(wind, 1000);
+    </script>
+    <p id="clock"></p>
+    <script>
+        var Target = document.getElementById("clock");
+        function clock() {
+            var time = new Date();
+
+            var month = time.getMonth();
+            var date = time.getDate();
+            var day = time.getDay();
+            var week = ['일', '월', '화', '수', '목', '금', '토'];
+
+            var hours = time.getHours();
+            var minutes = time.getMinutes();
+            var seconds = time.getSeconds();
+
+            Target.innerText =
+                `${month + 1}월 ${date}일 ${week[day]}요일 ` +
+                `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+
+        }
+        clock();
+        setInterval(clock, 1000);
+    </script>
 </body>
+
 </html>
